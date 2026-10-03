@@ -10,9 +10,17 @@ The models must match the solver's feature list,
 and commit here whenever that list changes. How they are made is in
 `scripts/crystal/CLAUDE.md` of the solver.
 
+Each model carries its provenance as xgboost attributes (`train_frame`,
+`train_rows`, `train_date`, `gathered_by` = the solver commit that
+gathered the data) and the 1st/99th percentile of every feature in its
+training data (`feature_lo`/`feature_hi`); the solver prints the former
+at load and counts values outside the latter. `python3 -c 'import
+json,sys; print(json.load(open(sys.argv[1]))["learner"]["attributes"])'
+predictor_disc.json` shows them.
+
 Current model: `predictor_disc.json`, trained 2026-10-03 on 14 UNSAT SAT
 Competition 2020 instances of 14 families, 20000 rows per use stratum
-per instance (`FIXED=20000`), the stats build of solver commit 0616917e9
+per instance (`FIXED=20000`), the stats build of solver commit fb16b3a4c
 (it dumps the cost and activity columns, which the model does not use).
 Label: every future use of the clause discounted by its distance
 (halving every 30k conflicts), learnt as the clause's rank among the
