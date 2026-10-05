@@ -18,15 +18,13 @@ at load and counts values outside the latter. `python3 -c 'import
 json,sys; print(json.load(open(sys.argv[1]))["learner"]["attributes"])'
 predictor_disc.json` shows them.
 
-Current model: `predictor_disc.json`, trained 2026-10-03 on 14 UNSAT SAT
-Competition 2020 instances of 14 families, 20000 rows per use stratum
-per instance (`FIXED=20000`), the stats build of solver commit fb16b3a4c
-(it dumps the cost and activity columns, which the model does not use).
-Label: every future use of the clause discounted by its distance
-(halving every 30k conflicts), learnt as the clause's rank among the
-clauses of its reduce (`TIERS=disc TARGET=rel`), 40 trees of depth 5,
-feature list `best_features.txt` as of solver commit b5d6c352c: the
-24 scale-free features (nothing that grows with the run length or the
-instance size, see the solver's `scripts/crystal/CLAUDE.md`). The
-three-horizon models (`predictor_{short,long,forever}.json`) are in this
-repo's history if `--predtiers short,long,forever` is wanted.
+Current model: `predictor_disc.json`, trained 2026-10-05 on 21 UNSAT
+instances of 19 families (SAT Competition 2020 and SAT Race 2019), 20000
+rows per sampling cell per instance (`FIXED=20000`), no row weights
+(`XGB_WEIGHTS=none`), the stats build of solver commit aca2c1959 (every
+tracked clause locked, auto dump ratio). Label: every future use of the
+clause in the trimmed proof, halving every 4 reduces, learnt as the
+clause's rank among the clauses of its reduce (`TIERS=disc
+TARGET=rel`), 40 trees of depth 5, feature list `best_features.txt`:
+the 24 scale-free features. On 9 held-out instances, 3 seeds, `--xor
+0`: 110% of the normal build's conflicts and 118% of its time.
