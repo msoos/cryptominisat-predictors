@@ -17,12 +17,14 @@ at load and counts values outside the latter. `python3 -c 'import
 json,sys; print(json.load(open(sys.argv[1]))["learner"]["attributes"])'
 predictor_disc.json` shows them.
 
-Current model: `predictor_disc.json`, trained 2026-10-05 on 21 UNSAT
-instances of 19 families (SAT Competition 2020 and SAT Race 2019), 20000
-rows per sampling cell per instance (`FIXED=20000`), no row weights
-(`XGB_WEIGHTS=none`), the stats build of solver commit aca2c1959 (every
-tracked clause locked, auto dump ratio). Label: every future use of the
-clause in the trimmed proof, halving every 4 reduces, learnt as the
-clause's rank among the clauses of its reduce (`TARGET=rel`), 40 trees of depth 5, feature list `best_features.txt`:
-the 24 scale-free features. On 9 held-out instances, 3 seeds, `--xor
-0`: 110% of the normal build's conflicts and 118% of its time.
+Current model: `predictor_disc.json`, trained 2026-10-07 on 21 UNSAT
+instances of 19 families (SAT Competition 2020 and SAT Race 2019),
+gathered twice: once with glue driving the reduce (stats build of solver
+commit aca2c1959) and once with the model of that first round driving
+it (19 of the 21, commit 2cbb20943). 20000 rows per sampling cell per
+instance (`FIXED=20000`). A ranker (`rank:ndcg`, `XGB_OBJ=rank`): the
+order of the clauses within a reduce, learnt from whether a clause is
+used in the trimmed proof in the next 8 reduces. 40 trees of depth 5,
+feature list `best_features.txt`: the 24 scale-free features. It orders
+the reduce candidates only. On 9 held-out instances, 3 seeds, `--xor
+0`: 101.6% [92.5, 111.3] of the normal build's conflicts.
