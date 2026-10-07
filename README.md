@@ -27,4 +27,5 @@ order of the clauses within a reduce, learnt from whether a clause is
 used in the trimmed proof in the next 8 reduces. 40 trees of depth 5,
 feature list `best_features.txt`: the 24 scale-free features. It orders
 the reduce candidates only. On 9 held-out instances, 3 seeds, `--xor
-0`: 101.6% [92.5, 111.3] of the normal build's conflicts.
+0`: 96.7% [87.0, 105.0] of the normal build's conflicts, 100.9% [90, 113]
+of its time.
